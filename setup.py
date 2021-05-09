@@ -1,0 +1,32 @@
+from distutils.core import setup
+
+setup(
+    name="download_oscar",
+    packages=["download_oscar"],
+    version="0.0.1",
+    license="MIT",
+    description="Downloading all files of a language from the OSCAR (Open Super-large Crawled Aggregated coRpus)",
+    author="xamm",
+    author_email="xamm.apps@gmail.com",
+    url="https://github.com/xamm/download_oscar",
+    download_url="https://github.com/xamm/download_oscar/archive/0.0.1.tar.gz",
+    keywords=[
+        "nlp",
+        "dataset",
+        "automation",
+    ],
+    install_requires=[
+        "beautifulsoup4",
+        "html5lib",
+        "PySimpleGUI",
+        "requests",
+        "tqdm",
+    ],
+    classifiers=[
+        "Development Status :: 4 - Beta",
+        "Intended Audience :: Science/Research",
+        "Topic :: Scientific/Engineering :: Artificial Intelligence",
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3",
+    ],
+)
