@@ -29,4 +29,7 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
     ],
+    entry_points={
+        "console_scripts": ["dodc=download_oscar.dod:main", "dodg=download_oscar.dod_gui:main"],
+    },
 )

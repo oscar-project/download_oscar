@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 from requests import sessions
 from tqdm import tqdm
 
-from status import Status
+from download_oscar.status import Status
 
 
 def login(user: str, password: str, s: sessions.Session, headers):
@@ -248,8 +248,7 @@ def get_checksums_location(base_url: str, response_content: bytes) -> str:
     ][0]
     return checksum_file
 
-
-if __name__ == "__main__":
+def main():
     """Download all data files from the base_url."""
     parser = argparse.ArgumentParser(
         prog="download_oscarcorpus",
@@ -290,3 +289,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     download_all(args.user, args.password, args.base_url, args.out, args.chunk_size)
+
+
+if __name__ == "__main__":
+    main()
