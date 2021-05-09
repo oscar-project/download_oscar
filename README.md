@@ -1,5 +1,7 @@
 # Downloading language data from OSCAR automated
 
+[![Build](https://github.com/xamm/download_oscar/actions/workflows/lint_build.yml/badge.svg?branch=main)](https://github.com/xamm/download_oscar/actions/workflows/lint_build.yml)
+
 ## Features
 
 - Adds dodc and dodg as command line tools
