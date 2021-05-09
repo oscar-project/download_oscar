@@ -248,6 +248,7 @@ def get_checksums_location(base_url: str, response_content: bytes) -> str:
     ][0]
     return checksum_file
 
+
 def main():
     """Download all data files from the base_url."""
     parser = argparse.ArgumentParser(
