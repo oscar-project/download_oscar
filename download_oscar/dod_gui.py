@@ -122,7 +122,7 @@ def event_loop(window):
                 validate_int(window, "chunk_size", values)
             if event == "Start":
                 user, password, base_url, out, _, chunk_size = values.values()
-                command = f"python download_oscar.py --user={user} --password={password} --base_url={base_url} --chunk_size={chunk_size} --out={out}"
+                command = f"dodc --user={user} --password={password} --base_url={base_url} --chunk_size={chunk_size} --out={out}"
                 window["cmd"].update(command)
                 window.refresh()
                 proc = subprocess.Popen(
