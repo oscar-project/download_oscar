@@ -4,10 +4,10 @@
 name: Deploy Python Package
 
 on:
-  push:
+  create:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    ref_type: tag
+
 
 jobs:
   lint:
