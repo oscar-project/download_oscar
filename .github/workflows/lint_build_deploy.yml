@@ -53,9 +53,9 @@ jobs:
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       run: |
         python -m build --sdist --wheel --outdir dist/ .
-    - name: Ref
+    - name: Echo Tagname
       run: |
-        echo "Deploying to production server on branch $GITHUB_REF"
+        echo "Created tag $GITHUB_REF"
     - name: Publish distribution 📦 to Test PyPI
       uses: pypa/gh-action-pypi-publish@master
       with:
