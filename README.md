@@ -33,6 +33,14 @@ Instead of providing arguments to the command line you can enter these into inpu
 
 ## Installation
 
+### Simple Installation
+
+```pip install download-oscar``` will install the requirements and the tool with one command.
+
+### Building from source
+
+#### Requirements
+
 - Requires [Python](https://www.python.org/) in version 3.
 - Requires [Requests](https://docs.python-requests.org/en/master/)
 - Requires [html5lib](https://github.com/html5lib/html5lib-python)
@@ -40,7 +48,7 @@ Instead of providing arguments to the command line you can enter these into inpu
 - Requires [PySimpleGUI](https://github.com/PySimpleGUI/PySimpleGUI)
 - Requires [tqdm](https://github.com/tqdm/tqdm)
 
-#### Building from source
+#### Building
 
 - install [Python](https://www.python.org/)
 - `git clone https://github.com/xamm/download_oscar.git`
@@ -49,7 +57,7 @@ Instead of providing arguments to the command line you can enter these into inpu
 - `pip install -r requirements.txt`
 - `python setup.py sdist`
 
-#### Release new version
+## Release a new version
 
 - All pushed git commits and pull requests on the `main` branch trigger an automatic build and packaging for pypi
     - commits without a tag only trigger packaging for [**TestPyPi**](https://test.pypi.org/)
