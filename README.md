@@ -44,4 +44,11 @@ Instead of providing arguments to the command line you can enter these into inpu
 - `pip install -r requirements.txt`
 - `python setup.py sdist`
 
+#### Release new version
+
+- All pushed git commits and pull requests on the `main` branch trigger an automatic build and packaging for pypi
+    - commits without a tag only trigger packaging for [**TestPyPi**](https://test.pypi.org/)
+    - commits with a tag will also push to [**PyPi**](https://pypi.org/)
+    - A new version number must be specified in `setup.py` in order for publishing to work
+
 ## [Licence](https://github.com/xamm/download_oscar/blob/main/LICENSE)
