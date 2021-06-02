@@ -37,7 +37,7 @@ Instead of providing arguments to the command line you can enter these into inpu
 
 ```pip install download-oscar``` will install the requirements and the tool with one command.
 
-### Building from source
+### Installing from source
 
 #### Requirements
 
