@@ -55,7 +55,7 @@ Instead of providing arguments to the command line you can enter these into inpu
     - commits with a tag will also push to [**PyPi**](https://pypi.org/)
     - A new version number must be specified in `setup.py` in order for publishing to work
         - publishing is trigerred on creation of a `tag` on the `main` branch
-        - e.g. `git tag v0.0.1` and `git push origin v0.0.1`
+        - e.g. `git tag -a v0.0.1 -m 'Release 0.1' and `git push origin v0.0.1`
         - easiest procedure:
             - work on your code
             - add & commit changes
