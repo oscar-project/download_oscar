@@ -1,6 +1,6 @@
 # Downloading language data from OSCAR automated
 
-![Lint & Build](https://github.com/xamm/download_oscar/actions/workflows/lint_build.yml)
+[![Deploy Python Package](https://github.com/xamm/download_oscar/actions/workflows/lint_build_deploy.yml/badge.svg?branch=main)](https://github.com/xamm/download_oscar/actions/workflows/lint_build_deploy.yml)
 ![PyPI](https://img.shields.io/pypi/v/download-oscar?color=blue)
 ![PyPI - License](https://img.shields.io/pypi/l/download-oscar?color=brightgreen)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/download-oscar?color=informational)
@@ -54,6 +54,6 @@ Instead of providing arguments to the command line you can enter these into inpu
     - commits without a tag only trigger packaging for [**TestPyPi**](https://test.pypi.org/)
     - commits with a tag will also push to [**PyPi**](https://pypi.org/)
     - A new version number must be specified in `setup.py` in order for publishing to work
-        - e.g. `git tag v0.0.1`
+        - e.g. `git tag v0.0.1` and push with `git push --atomic origin main v0.0.1 `
 
 ## [Licence](https://github.com/xamm/download_oscar/blob/main/LICENSE)

@@ -15,7 +15,7 @@ setup(
     author="xamm",
     author_email="xamm.apps@gmail.com",
     url="https://github.com/xamm/download_oscar",
-    download_url="https://github.com/xamm/download_oscar/archive/0.0.1.tar.gz",
+    download_url="https://pypi.org/project/download-oscar/",
     keywords=[
         "nlp",
         "dataset",
