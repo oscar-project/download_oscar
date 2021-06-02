@@ -7,7 +7,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 setup(
     name="download_oscar",
     packages=["download_oscar"],
-    version="0.0.3",
+    version="v1.0",
     license="MIT",
     description="Downloading all files of a language from the OSCAR (Open Super-large Crawled Aggregated coRpus)",
     long_description=long_description,
@@ -29,7 +29,7 @@ setup(
         "tqdm",
     ],
     classifiers=[
-        "Development Status :: 4 - Beta",
+        "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Science/Research",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
         "License :: OSI Approved :: MIT License",
