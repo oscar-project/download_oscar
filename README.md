@@ -1,6 +1,10 @@
 # Downloading language data from OSCAR automated
 
-[![Lint & Build](https://github.com/xamm/download_oscar/actions/workflows/lint_build.yml/badge.svg?branch=main)](https://github.com/xamm/download_oscar/actions/workflows/lint_build.yml)
+![Lint & Build](https://github.com/xamm/download_oscar/actions/workflows/lint_build.yml)
+![PyPI](https://img.shields.io/pypi/v/download-oscar?color=blue)
+![PyPI - License](https://img.shields.io/pypi/l/download-oscar?color=brightgreen)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/download-oscar?color=informational)
+
 
 ## Features
 
