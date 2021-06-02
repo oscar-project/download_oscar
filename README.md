@@ -55,7 +55,7 @@ Instead of providing arguments to the command line you can enter these into inpu
 - `cd download_oscar`
 - (optional) create a virtual enironment
 - `pip install -r requirements.txt`
-- `python setup.py sdist`
+- `pip install -e .` will install the tool in development mode.
 
 ## Release a new version
 
