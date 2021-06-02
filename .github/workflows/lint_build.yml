@@ -52,6 +52,3 @@ jobs:
     - name: Build
       run: |
         python -m build --sdist --wheel --outdir dist/ .
-    - name: Ref
-      run: |
-        echo "Deploying to production server on branch $GITHUB_REF"
