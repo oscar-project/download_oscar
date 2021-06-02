@@ -54,6 +54,6 @@ Instead of providing arguments to the command line you can enter these into inpu
     - commits without a tag only trigger packaging for [**TestPyPi**](https://test.pypi.org/)
     - commits with a tag will also push to [**PyPi**](https://pypi.org/)
     - A new version number must be specified in `setup.py` in order for publishing to work
-        - e.g. `git tag v0.0.1` and push with `git push --atomic origin main v0.0.1 `
+        - e.g. `git tag v0.0.1` or `git tag -a v0.0.1 896f97d -m 'Release v0.0.1'` and push with `git push --atomic origin main v0.0.1 `
 
 ## [Licence](https://github.com/xamm/download_oscar/blob/main/LICENSE)
