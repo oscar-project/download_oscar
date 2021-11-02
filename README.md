@@ -2,8 +2,8 @@
 
 [![Downloads](https://pepy.tech/badge/download-oscar)](https://pepy.tech/project/download-oscar)
 [![PyPI](https://img.shields.io/pypi/v/download-oscar?color=blue)](https://pypi.org/project/download-oscar/)
-[![PyPI - License](https://img.shields.io/pypi/l/download-oscar?color=brightgreen)](https://github.com/xamm/download_oscar/blob/f0caf517f9846235696a5590fcf5c758bcac0a1a/LICENSE)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/download-oscar?color=informational)
+[![PyPI - License](https://img.shields.io/pypi/l/download-oscar?color=brightgreen)](https://github.com/xamm/download_oscar/blob/f0caf517f9846235696a5590fcf5c758bcac0a1a/LICENSE)
 
 [![Lint & Build Package](https://github.com/xamm/download_oscar/actions/workflows/lint_build.yml/badge.svg)](https://github.com/xamm/download_oscar/actions/workflows/lint_build.yml)
 [![Deploy Python Package](https://github.com/xamm/download_oscar/actions/workflows/lint_build_deploy.yml/badge.svg?branch=main)](https://github.com/xamm/download_oscar/actions/workflows/lint_build_deploy.yml)
