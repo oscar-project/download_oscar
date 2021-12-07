@@ -13,34 +13,6 @@ from tqdm import tqdm
 from download_oscar.status import Status
 
 
-def login(user: str, password: str, s: sessions.Session, headers):
-    """Logs in to the base website of the oscar dataset.
-
-    Args:
-        user (str): User name of the account to login to.
-        password (str): Password for the user.
-        s (sessions.Session): The session that should be used to login.
-        headers (): The headers used in requests.
-    """
-
-    login_url = "https://humanid.huma-num.fr/"
-    login_data = {
-        "user": user,
-        "password": password,
-        "timezone": "1",
-        "lmAuth": "1HumanID",
-        "skin": "humanid",
-    }
-    response = s.get(login_url, headers=headers)
-
-    soup = BeautifulSoup(response.content, "html5lib")
-
-    login_data["url"] = (soup.find("input", attrs={"name": "url"})["value"],)
-    login_data["token"] = (soup.find("input", attrs={"name": "token"})["value"],)
-
-    response = s.post(login_url, headers=headers, data=login_data)
-
-
 def get_filename(url: str) -> str:
     """Returns the filename from a link.
 
@@ -162,7 +134,7 @@ def download_checksums(s: sessions.Session, checksum_url: str, headers) -> dict:
         dictionary = {}
         for line in lines:
             (key, val) = line.split()
-            dictionary[key] = val
+            dictionary[val] = key
         return dictionary
 
 
@@ -179,7 +151,7 @@ def download_all(user: str, password: str, base_url: str, out, chunk_size: int =
         "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.41 Safari/537.36"
     }
     with requests.session() as session:
-        login(user, password, session, headers)
+        session.auth = (user, password)
 
         response = session.get(base_url, headers=headers)
 
