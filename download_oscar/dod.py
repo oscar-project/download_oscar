@@ -196,7 +196,7 @@ def get_unique_file_locations(base_url: str, response_content: bytes) -> List[st
             [
                 "/".join([base_url, link["href"]])
                 for link in soup.find_all("a", href=True)
-                if "txt.gz" in link["href"]
+                if "txt.gz" in link["href"] or "jsonl.gz" in link["href"]
             ]
         )
     )
