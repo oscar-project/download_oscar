@@ -38,8 +38,10 @@ def login(user: str, password: str, s: sessions.Session, headers):
     login_data["url"] = (soup.find("input", attrs={"name": "url"})["value"],)
     login_data["token"] = (soup.find("input", attrs={"name": "token"})["value"],)
 
-    response = s.post(login_url, headers=headers, data=login_data)
+    # add basic HTTP auth in session
+    s.auth = (user, password)
 
+    response = s.post(login_url, headers=headers, data=login_data)
 
 def get_filename(url: str) -> str:
     """Returns the filename from a link.
@@ -161,8 +163,15 @@ def download_checksums(s: sessions.Session, checksum_url: str, headers) -> dict:
         lines = buffer.readlines()
         dictionary = {}
         for line in lines:
-            (key, val) = line.split()
-            dictionary[key] = val
+
+            (hash, filename) = line.split()
+            # fix for OSCAR v1 that had FILENAME HASH format
+            # rather than HASH FILENAME
+            if '.' in hash:
+                tmp = filename
+                filename = hash
+                hash = tmp
+            dictionary[filename] = hash
         return dictionary
 
 
