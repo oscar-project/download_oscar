@@ -23,8 +23,9 @@ To get help with the command line tool use `dodc -h` from a shell.
 The command line tool needs to be supplied with multiple arguments:
 - **user**: The user used to login to the site providing OSCAR.
 - **password**: The password used to login to the site providing OSCAR.
-- **base_url**: The url where the language iles are hosted.
+- **base_url**: The url where the language files are hosted.
   - e.g. https://oscar-public.huma-num.fr/shuff-dedup/sv/
+  - or https://oscar-prive.huma-num.fr/2109/packaged/sv/
 - **out**: The folder where files should be downloaded to.
 - **chunk_size** *(optional)*: Defaults to 4096. The size of the chunks files are downloaded in.
 
