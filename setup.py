@@ -7,7 +7,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 setup(
     name="download_oscar",
     packages=["download_oscar"],
-    version="2.0",
+    version="2.1",
     license="MIT",
     description="Downloading all files of a language from the OSCAR (Open Super-large Crawled Aggregated coRpus)",
     long_description=long_description,
