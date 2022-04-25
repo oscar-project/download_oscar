@@ -3,10 +3,7 @@
 
 name: Deploy Python Package
 
-on:
-  create:
-    branches: [ main ]
-    ref_type: tag
+on: workflow_dispatch
 
 
 jobs:
