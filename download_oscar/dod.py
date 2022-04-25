@@ -43,6 +43,7 @@ def login(user: str, password: str, s: sessions.Session, headers):
 
     response = s.post(login_url, headers=headers, data=login_data)
 
+
 def get_filename(url: str) -> str:
     """Returns the filename from a link.
 
@@ -167,7 +168,7 @@ def download_checksums(s: sessions.Session, checksum_url: str, headers) -> dict:
             (hash, filename) = line.split()
             # fix for OSCAR v1 that had FILENAME HASH format
             # rather than HASH FILENAME
-            if '.' in hash:
+            if "." in hash:
                 tmp = filename
                 filename = hash
                 hash = tmp
@@ -233,7 +234,7 @@ def get_unique_file_locations(base_url: str, response_content: bytes) -> List[st
             [
                 "/".join([base_url, link["href"]])
                 for link in soup.find_all("a", href=True)
-                if "txt.gz" in link["href"]
+                if "txt.gz" in link["href"] or "jsonl.gz" in link["href"]
             ]
         )
     )
@@ -253,7 +254,7 @@ def get_checksums_location(base_url: str, response_content: bytes) -> str:
     checksum_file = [
         "/".join([base_url, link["href"]])
         for link in soup.find_all("a", href=True)
-        if "sha256.txt" in link["href"]
+        if "sha256.txt" in link["href"] or "checksum.sha256" in link["href"]
     ][0]
     return checksum_file
 
