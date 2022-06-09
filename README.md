@@ -76,3 +76,5 @@ Instead of providing arguments to the command line you can enter these into inpu
             - push tag
 
 ## [Licence](https://github.com/xamm/download_oscar/blob/main/LICENSE)
+
+This tool was originally started during a student project at the [Database Systems Group Dresden](https://wwwdb.inf.tu-dresden.de/).
