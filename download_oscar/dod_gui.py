@@ -122,9 +122,10 @@ def event_loop(window):
                 validate_int(window, "chunk_size", values)
             if event == "Start":
                 user, password, base_url, out, _, chunk_size = values.values()
-                command = f"dodc --user={user} --password={password} --base_url={base_url} --chunk_size={chunk_size} --out={out}"
+                command = f"dodc --user={user} --password={password} --base_url={base_url} --chunk_size={chunk_size} --out={out}"  # pylint: disable=C0301 # noqa: E501
                 window["cmd"].update(command)
                 window.refresh()
+                # pylint: disable=R1732
                 proc = subprocess.Popen(
                     command,
                     shell=True,
@@ -150,7 +151,7 @@ def read_stdout(proc, window):
 def validate_int(window, key, values):
     try:
         int(values[key])
-    except Exception:
+    except ValueError:
         sg.popup("Only integer values allowed.")
         window[key].update(values[key][:-1])
 

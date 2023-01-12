@@ -48,3 +48,9 @@ testpaths = [
 include = ["download_oscar", "__tests__"]
 typeCheckingMode = "basic"
 useLibraryCodeForTypes = true
+
+[[tool.mypy.overrides]]
+module = [
+    "PySimpleGUI",
+]
+ignore_missing_imports = true
