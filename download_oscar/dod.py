@@ -3,7 +3,7 @@ import os
 from hashlib import sha256
 from io import StringIO
 from pathlib import Path
-from typing import List
+from typing import List, Tuple
 
 import requests
 from bs4 import BeautifulSoup
@@ -34,9 +34,14 @@ def login(user: str, password: str, s: sessions.Session, headers):
     response = s.get(login_url, headers=headers)
 
     soup = BeautifulSoup(response.content, "html5lib")
-
-    login_data["url"] = (soup.find("input", attrs={"name": "url"})["value"],)
-    login_data["token"] = (soup.find("input", attrs={"name": "token"})["value"],)
+    url = soup.find("input", attrs={"name": "url"})
+    token = soup.find("input", attrs={"name": "token"})
+    if url is None:
+        raise RuntimeError("Could not determine url.")
+    if token is None:
+        raise RuntimeError("Could not determine token.")
+    login_data["url"] = (url["value"],)  # type:ignore
+    login_data["token"] = (token["value"],)  # type:ignore
 
     # add basic HTTP auth in session
     s.auth = (user, password)
@@ -99,7 +104,7 @@ def download_data(
     checksum: str,
     out: str,
     headers,
-) -> Status:
+) -> Tuple[Status, str]:
     """Downloads a data file using streaming and validates that downloaded file corresponds to the checksum.
     Files are not downloaded again if already present.
 
@@ -147,7 +152,8 @@ def download_data(
 
 
 def download_checksums(s: sessions.Session, checksum_url: str, headers) -> dict:
-    """Downloads the checksum file and creates a dictionary where the key is the filename and value is the corresponding checksum.
+    """Downloads the checksum file and creates a dictionary
+        where the key is the filename and value is the corresponding checksum.
 
     Args:
         s (sessions.Session): The session used to login before downloading.
@@ -183,11 +189,11 @@ def download_all(user: str, password: str, base_url: str, out, chunk_size: int =
         user (str): The user name needed to login to the base_url.
         password (str): The password for this username.
         base_url (str): The base_url where all data files for a language can be found.
-        chunk_size (int, optional): Specifies that downloads should be downloaded in parts of this size. Defaults to 4096.
+        chunk_size (int, optional):
+            Specifies that downloads should be downloaded in parts of this size. Defaults to 4096.
     """
-    headers = {
-        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.41 Safari/537.36"
-    }
+    user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.41 Safari/537.36"  # pylint: disable=C0301 # noqa: E501
+    headers = {"user-agent": user_agent}
     with requests.session() as session:
         login(user, password, session, headers)
 
@@ -265,9 +271,7 @@ def main():
         prog="download_oscarcorpus",
         description="Download all data files from a given base url.",
     )
-    parser.add_argument(
-        "--user", action="store", type=str, required=True, help="The login username."
-    )
+    parser.add_argument("--user", action="store", type=str, required=True, help="The login username.")
     parser.add_argument(
         "--password",
         action="store",

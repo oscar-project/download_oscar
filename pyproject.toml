@@ -1,6 +1,50 @@
+[project]
+name="download_oscar"
+description = "Downloading all files of a language from the OSCAR (Open Super-large Crawled Aggregated coRpus)"
+authors = [{ name = "xamm", email = "xamm.apps@gmail.com"}]
+dynamic = ["version"]
+requires-python = ">=3.8"
+
 [build-system]
 requires = [
-    "setuptools>=42",
-    "wheel"
+  "setuptools >= 42",
+  "wheel",
 ]
 build-backend = "setuptools.build_meta"
+
+[tool.isort]
+profile = "black"
+sections = ['FUTURE', 'STDLIB', 'THIRDPARTY', 'FIRSTPARTY', 'LOCALFOLDER']
+
+[tool.pylint.MASTER]
+j=0
+load-plugins="pylint.extensions.docparams,pylint.extensions.docstyle"
+min-public-methods=0
+
+
+[tool.pylint.parameter_documentation]
+accept-no-param-doc = true
+accept-no-raise-doc = true
+accept-no-return-doc = true
+accept-no-yields-doc = true
+default-docstring-type = "google"
+
+[tool.pylint.format]
+disable=["C0114", "C0103"]
+max-line-length=120
+
+[tool.pylint.__tests__]
+disable=["C0114", "C0103", "C0115", "C0116", "R0914"]
+
+[tool.black]
+line-length=120
+
+[tool.pytest.ini_options]
+testpaths = [
+    "__tests__",
+]
+
+[tool.pyright]
+include = ["download_oscar", "__tests__"]
+typeCheckingMode = "basic"
+useLibraryCodeForTypes = true
