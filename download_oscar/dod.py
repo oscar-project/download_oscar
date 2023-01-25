@@ -3,7 +3,7 @@ import os
 from hashlib import sha256
 from io import StringIO
 from pathlib import Path
-from typing import List
+from typing import Dict, List, Tuple
 
 import requests
 from bs4 import BeautifulSoup
@@ -13,14 +13,18 @@ from tqdm import tqdm
 from download_oscar.status import Status
 
 
-def login(user: str, password: str, s: sessions.Session, headers):
+def login(user: str, password: str, s: sessions.Session, headers: Dict[str, str]):
     """Logs in to the base website of the oscar dataset.
 
     Args:
         user (str): User name of the account to login to.
         password (str): Password for the user.
         s (sessions.Session): The session that should be used to login.
-        headers (): The headers used in requests.
+        headers (Dict[str, str]): The headers used in requests.
+
+    Raises:
+        RuntimeError: If Url cannot be determined.
+        RuntimeError: If Token cannot be determined.
     """
 
     login_url = "https://humanid.huma-num.fr/"
@@ -34,9 +38,14 @@ def login(user: str, password: str, s: sessions.Session, headers):
     response = s.get(login_url, headers=headers)
 
     soup = BeautifulSoup(response.content, "html5lib")
-
-    login_data["url"] = (soup.find("input", attrs={"name": "url"})["value"],)
-    login_data["token"] = (soup.find("input", attrs={"name": "token"})["value"],)
+    url = soup.find("input", attrs={"name": "url"})
+    token = soup.find("input", attrs={"name": "token"})
+    if url is None:
+        raise RuntimeError("Could not determine url.")
+    if token is None:
+        raise RuntimeError("Could not determine token.")
+    login_data["url"] = (url["value"],)  # type:ignore
+    login_data["token"] = (token["value"],)  # type:ignore
 
     # add basic HTTP auth in session
     s.auth = (user, password)
@@ -98,8 +107,9 @@ def download_data(
     chunk_size: int,
     checksum: str,
     out: str,
-    headers,
-) -> Status:
+    headers: Dict[str, str],
+) -> Tuple[Status, str]:
+    # pylint: disable=R0913
     """Downloads a data file using streaming and validates that downloaded file corresponds to the checksum.
     Files are not downloaded again if already present.
 
@@ -108,7 +118,8 @@ def download_data(
         data_url (str): The url of the file to download.
         chunk_size (int): Specifies the size in how files should be streamed.
         checksum (str): The checksum the downloaded file must correspond to.
-        headers (): The headers used in requests.
+        out (str): Output path to save downloaded data to.
+        headers (Dict[str, str]): The headers used in requests.
 
     Returns:
         Status: The status of the downloaded result.
@@ -138,7 +149,7 @@ def download_data(
                     if chunk:  # filter out keep-alive new chunks
                         f.write(chunk)
                         progress_bar.update(len(chunk))
-    except Exception:
+    except Exception:  # pylint: disable=W0703
         return Status.DOWNLOAD_FAILED, out_file
 
     if validate_file(checksum, out_file):
@@ -146,13 +157,14 @@ def download_data(
     return Status.VALIDATION_FAILED, out_file
 
 
-def download_checksums(s: sessions.Session, checksum_url: str, headers) -> dict:
-    """Downloads the checksum file and creates a dictionary where the key is the filename and value is the corresponding checksum.
+def download_checksums(s: sessions.Session, checksum_url: str, headers: Dict[str, str]) -> dict:
+    """Downloads the checksum file and creates a dictionary
+        where the key is the filename and value is the corresponding checksum.
 
     Args:
         s (sessions.Session): The session used to login before downloading.
         checksum_url (str): The url to download the checksum file.
-        headers (): The headers used in requests.
+        headers (Dict[str, str]): The headers used in requests.
 
     Returns:
         dict: Filenames with corresponding checksum.
@@ -165,14 +177,15 @@ def download_checksums(s: sessions.Session, checksum_url: str, headers) -> dict:
         dictionary = {}
         for line in lines:
 
-            (hash, filename) = line.split()
+            (hash_value, filename) = line.split()
             # fix for OSCAR v1 that had FILENAME HASH format
             # rather than HASH FILENAME
-            if "." in hash:
+            if "." in hash_value:
+                # pylint: disable=R1712
                 tmp = filename
-                filename = hash
-                hash = tmp
-            dictionary[filename] = hash
+                filename = hash_value
+                hash_value = tmp
+            dictionary[filename] = hash_value
         return dictionary
 
 
@@ -183,11 +196,12 @@ def download_all(user: str, password: str, base_url: str, out, chunk_size: int =
         user (str): The user name needed to login to the base_url.
         password (str): The password for this username.
         base_url (str): The base_url where all data files for a language can be found.
-        chunk_size (int, optional): Specifies that downloads should be downloaded in parts of this size. Defaults to 4096.
+        out (str): Output path to save downloaded data to.
+        chunk_size (int, optional):
+            Specifies that downloads should be downloaded in parts of this size. Defaults to 4096.
     """
-    headers = {
-        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.41 Safari/537.36"
-    }
+    user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.41 Safari/537.36"  # pylint: disable=C0301 # noqa: E501
+    headers = {"user-agent": user_agent}
     with requests.session() as session:
         login(user, password, session, headers)
 
@@ -214,7 +228,7 @@ def download_all(user: str, password: str, base_url: str, out, chunk_size: int =
                 results[filename] = status
         finally:
             os.makedirs(out, exist_ok=True)
-            with open(os.path.join(out, "results.txt"), "w") as file:
+            with open(os.path.join(out, "results.txt"), "w", encoding="utf-8") as file:
                 print(results, file=file)
 
 
@@ -230,13 +244,11 @@ def get_unique_file_locations(base_url: str, response_content: bytes) -> List[st
     """
     soup = BeautifulSoup(response_content, "html5lib")
     return list(
-        set(
-            [
-                "/".join([base_url, link["href"]])
-                for link in soup.find_all("a", href=True)
-                if "txt.gz" in link["href"] or "jsonl.gz" in link["href"]
-            ]
-        )
+        {
+            "/".join([base_url, link["href"]])
+            for link in soup.find_all("a", href=True)
+            if "txt.gz" in link["href"] or "jsonl.gz" in link["href"]
+        }
     )
 
 
@@ -265,9 +277,7 @@ def main():
         prog="download_oscarcorpus",
         description="Download all data files from a given base url.",
     )
-    parser.add_argument(
-        "--user", action="store", type=str, required=True, help="The login username."
-    )
+    parser.add_argument("--user", action="store", type=str, required=True, help="The login username.")
     parser.add_argument(
         "--password",
         action="store",
