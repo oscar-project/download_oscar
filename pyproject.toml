@@ -23,10 +23,10 @@ min-public-methods=0
 
 
 [tool.pylint.parameter_documentation]
-accept-no-param-doc = true
-accept-no-raise-doc = true
-accept-no-return-doc = true
-accept-no-yields-doc = true
+accept-no-param-doc = false
+accept-no-raise-doc = false
+accept-no-return-doc = false
+accept-no-yields-doc = false
 default-docstring-type = "google"
 
 [tool.pylint.format]
