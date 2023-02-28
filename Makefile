@@ -31,8 +31,8 @@ develop: packages
 
 # BUILD
 .PHONY: build
-build: clean
-	python -m build
+build: clean install
+	python -m build --sdist --wheel --outdir dist/ .
 
 # TEST
 .PHONY: test
