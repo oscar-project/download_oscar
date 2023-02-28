@@ -10,6 +10,8 @@ from bs4 import BeautifulSoup
 from requests import sessions
 from tqdm import tqdm
 
+from download_oscar.extensions.checksum_extensions import ChecksumExtensions
+from download_oscar.extensions.data_extensions import DataExtensions
 from download_oscar.status import Status
 
 
@@ -247,7 +249,7 @@ def get_unique_file_locations(base_url: str, response_content: bytes) -> List[st
         {
             "/".join([base_url, link["href"]])
             for link in soup.find_all("a", href=True)
-            if "txt.gz" in link["href"] or "jsonl.gz" in link["href"]
+            if any((enum.value in link["href"] for enum in DataExtensions))
         }
     )
 
@@ -266,7 +268,7 @@ def get_checksums_location(base_url: str, response_content: bytes) -> str:
     checksum_file = [
         "/".join([base_url, link["href"]])
         for link in soup.find_all("a", href=True)
-        if "sha256.txt" in link["href"] or "checksum.sha256" in link["href"]
+        if any((enum.value in link["href"] for enum in ChecksumExtensions))
     ][0]
     return checksum_file
 
